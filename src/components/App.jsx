@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
+import { getAllNotesFromDB, addNoteToDB, deleteNoteFromDB } from "../utils/HandleApi";
 
 function App() {
   const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    getAllNotesFromDB(setNotes)
+  }, [])
+
 
   function addNote(newNote) {
     setNotes(prevNotes => {
       return [...prevNotes, newNote];
     });
+    // update db 
+    addNoteToDB(newNote, setNotes);
   }
 
   function deleteNote(id) {
     setNotes(prevNotes => {
-      return prevNotes.filter((noteItem, index) => {
-        return index !== id;
+      return prevNotes.filter((noteItem) => {
+        return noteItem._id !== id;
       });
     });
+
+    // update db
+    deleteNoteFromDB(id, setNotes);
   }
 
   return (
@@ -29,7 +40,7 @@ function App() {
         return (
           <Note
             key={index}
-            id={index}
+            id={noteItem._id}
             title={noteItem.title}
             content={noteItem.content}
             onDelete={deleteNote}

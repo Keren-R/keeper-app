@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', getAllNotes)
 router.post('/', createNote)
-router.delete('/', deleteNote)
+router.delete('/:_id', deleteNote)
 
 
 module.exports = router

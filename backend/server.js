@@ -7,7 +7,7 @@ const routes = require('./routes/keeper_app_routes')
 require('dotenv').config()
 
 const app = express()
-const PORT = process.env.PORT || 5173
+const PORT = 3000
 
 // built-in function to parse a request data with JSON payload
 app.use(express.json())
